@@ -1,0 +1,102 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                                     A Boss Stats |
+//|                           Copyright 2021, Forex Robot Easy Team |
+//|                                             https://forexroboteasy.com |
+//+------------------------------------------------------------------+
+
+//--- input parameters
+input ENUM_TIMEFRAMES ChartTimeframe=PERIOD_M1; // Chart time frame
+input int ExpirationTime=1; // Expiration time in minutes
+double BuyBuffer[]; // Buy buffer
+double SellBuffer[]; // Sell buffer
+
+//--- global variables
+double ArrowBuffer[]; // Arrow buffer
+
+//+------------------------------------------------------------------+
+//| Custom indicator initialization function                         |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+   //--- indicator buffers mapping
+   SetIndexBuffer(0,BuyBuffer,INDICATOR_DATA);
+   SetIndexBuffer(1,SellBuffer,INDICATOR_DATA);
+   SetIndexBuffer(2,ArrowBuffer,INDICATOR_DATA);
+
+   //--- set up default values
+   SetIndexLabel(0,'BUY');
+   SetIndexLabel(1,'SELL');
+
+   return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Custom indicator iteration function                              |
+//+------------------------------------------------------------------+
+int OnCalculate(const int rates_total,
+                const int prev_calculated,
+                const datetime &time[],
+                const double &open[],
+                const double &high[],
+                const double &low[],
+                const double &close[],
+                const long &tick_volume[],
+                const long &volume[],
+                const int &spread[])
+{
+   //--- main loop
+   for(int i=prev_calculated; i<rates_total; i++)
+   {
+      //--- check for buy condition
+      if(CheckBuyCondition(i))
+      {
+         BuyBuffer[i]=1; // Open a buy trade
+      }
+      
+      //--- check for sell condition
+      if(CheckSellCondition(i))
+      {
+         SellBuffer[i]=1; // Open a sell trade
+      }
+      
+      //--- check for arrow condition
+      if(CheckArrowCondition(i))
+      {
+         ArrowBuffer[i]=1; // Display an arrow
+      }
+   }
+
+   //--- return value of prev_calculated for next call
+   return(rates_total);
+}
+
+//+------------------------------------------------------------------+
+//| Function to check for buy condition                               |
+//+------------------------------------------------------------------+
+bool CheckBuyCondition(const int index)
+{
+   //--- implement buy condition logic here
+
+   return true; // Return true if buy condition is met
+}
+
+//+------------------------------------------------------------------+
+//| Function to check for sell condition                              |
+//+------------------------------------------------------------------+
+bool CheckSellCondition(const int index)
+{
+   //--- implement sell condition logic here
+
+   return true; // Return true if sell condition is met
+}
+
+//+------------------------------------------------------------------+
+//| Function to check for arrow condition                             |
+//+------------------------------------------------------------------+
+bool CheckArrowCondition(const int index)
+{
+   //--- implement arrow condition logic here
+
+   return true; // Return true if arrow condition is met
+}
